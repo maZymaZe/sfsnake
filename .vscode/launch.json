@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++ Launch (GDB)",                
+            "type": "cppdbg",                         
+            "request": "launch",                        
+            "targetArchitecture": "x86",                
+            "program": "${workspaceRoot}\\main.exe",          //${fileBasenameNoExtension}        
+            "miDebuggerPath":"gdb.exe", 
+            "args": [],     
+            "stopAtEntry": true,                  
+            "cwd": "${workspaceRoot}",                  
+            "externalConsole": false,
+            "preLaunchTask": "make",
+            "internalConsoleOptions": "openOnFirstSessionStart"
+            }
+    ]
+ }

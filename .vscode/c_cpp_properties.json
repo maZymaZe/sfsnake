@@ -9,7 +9,9 @@
                 "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
                 "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
                 "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/tr1",
-                "C:/mingw64/x86_64-w64-mingw32/include"
+                "C:/mingw64/x86_64-w64-mingw32/include",
+                "C:/sfml2.5/lib",
+                "C:/sfml2.5/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -26,11 +28,11 @@
                     "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
                     "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
                     "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/tr1",
-                    "C:/mingw64/x86_64-w64-mingw32/include"
+                    "C:/mingw64/x86_64-w64-mingw32/include",
+                    "C:/sfml2.5/lib",
+                    "C:/sfml2.5/include"
                 ]
-            },
-            "limitSymbolsToIncludedHeaders": true,
-            "databaseFilename": ""
+            }
         }
     ],
     "version": 4

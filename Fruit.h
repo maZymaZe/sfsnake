@@ -15,9 +15,9 @@ public:
 	sf::FloatRect getBounds() const;
 
 private:
-	sf::CircleShape shape_;
+	sf::CircleShape shape_;//圆形设置
 
-	static const float Radius;
+	static const float Radius;//半径
 };
 }
 

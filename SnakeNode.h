@@ -5,11 +5,11 @@
 
 namespace sfSnake
 {
-class SnakeNode
+class SnakeNode   //蛇块
 {
 public:
 	SnakeNode(sf::Vector2f position = sf::Vector2f(0, 0));
-
+	//vector2f可以理解为装2个float的vec
 	void setPosition(sf::Vector2f position);
 	void setPosition(float x, float y);
 

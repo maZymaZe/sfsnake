@@ -4,7 +4,7 @@
 
 using namespace sfSnake;
 
-const float Fruit::Radius = 5.f;
+const float Fruit::Radius = 5.f;//设置大小
 
 Fruit::Fruit(sf::Vector2f position)
 {
@@ -20,5 +20,5 @@ void Fruit::render(sf::RenderWindow& window)
 
 sf::FloatRect Fruit::getBounds() const
 {
-	return shape_.getGlobalBounds();
+	return shape_.getGlobalBounds();//取位置
 }

@@ -11,17 +11,19 @@ using namespace sfSnake;
 
 GameOverScreen::GameOverScreen(std::size_t score) : score_(score)
 {
-	font_.loadFromFile("Fonts/game_over.ttf");
+	font_.loadFromFile("Fonts/game_over.ttf");//字体
 	text_.setFont(font_);
 	text_.setString("Your score: " + std::to_string(score) + "!"
 		"\n\nPress [SPACE] to retry"
 		"\n\nPress [ESC] to quit");
 	text_.setColor(sf::Color::Red);
+	//设置各种显示内容、颜色
 
 	sf::FloatRect textBounds = text_.getLocalBounds();
 	text_.setOrigin(textBounds.left + textBounds.width / 2,
-		textBounds.top + textBounds.height / 2);
+		textBounds.top + textBounds.height / 2);//定位？
 	text_.setPosition(Game::Width / 2, Game::Height / 2);
+	//位置
 }
 
 void GameOverScreen::handleInput(sf::RenderWindow& window)

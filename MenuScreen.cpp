@@ -31,6 +31,8 @@ MenuScreen::MenuScreen()
 	snakeText_.setOrigin(snakeTextBounds.left + snakeTextBounds.width / 2,
 		snakeTextBounds.top + snakeTextBounds.height / 2);
 	snakeText_.setPosition(Game::Width / 2, Game::Height / 4);
+
+	//以上位置、内容的处理
 }
 
 void MenuScreen::handleInput(sf::RenderWindow& window)
@@ -45,11 +47,11 @@ void MenuScreen::update(sf::Time delta)
 {
 	static bool movingLeft = false;
 	static bool movingRight = true;
-
+//旋转效果
 	if (movingRight)
 	{
 		snakeText_.rotate(delta.asSeconds());
-
+	
 		if (static_cast<int>(snakeText_.getRotation()) == 10)
 		{
 			movingRight = false;

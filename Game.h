@@ -1,39 +1,35 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-
-#include <vector>
+#include <SFML/Graphics.hpp>
 #include <memory>
+#include <vector>
 
 #include "Screen.h"
 
-namespace sfSnake
-{
-class Game
-{
-public:
-	Game();
+namespace sfSnake {
+class Game {
+   public:
+    Game();
 
-	void run();
+    void run();
 
-	void handleInput();
-	void update(sf::Time delta);
-	void render();
+    void handleInput();
+    void update(sf::Time delta);
+    void render();
 
-	static const int Width = 640;
-	static const int Height = 480;
+    static const int Width = 640;
+    static const int Height = 480;
+    //自然是屏幕大小设置，需要某种整除关系
+    static std::shared_ptr<Screen> Screen;
 
-	static std::shared_ptr<Screen> Screen;
+   private:
+    sf::RenderWindow window_;
+    sf::Music bgMusic_;
 
-private:
-	sf::RenderWindow window_;
-	sf::Music bgMusic_;
-	
-	static const sf::Time TimePerFrame;
+    static const sf::Time TimePerFrame;
 };
-}
-
+}  // namespace sfSnake
 
 #endif

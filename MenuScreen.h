@@ -20,6 +20,7 @@ private:
 	sf::Font font_;
 	sf::Text snakeText_;
 	sf::Text text_;
+	//要显示什么在这里补充
 };
 }
 

@@ -5,23 +5,21 @@
 
 #include "Screen.h"
 
-namespace sfSnake
-{
-class GameOverScreen : public Screen
-{
-public:
-	GameOverScreen(std::size_t score);
+namespace sfSnake {
+class GameOverScreen : public Screen {
+   public:
+    GameOverScreen(std::size_t score);
 
-	void handleInput(sf::RenderWindow& window) override;
-	void update(sf::Time delta) override;
-	void render(sf::RenderWindow& window) override;
-
-private:
-	sf::Font font_;
-	sf::Text text_;
-
-	unsigned score_;
+    void handleInput(sf::RenderWindow& window) override;
+    void update(sf::Time delta) override;
+    void render(sf::RenderWindow& window) override;
+//override 覆盖掉前面的虚函数
+   private:
+    sf::Font font_;
+    sf::Text text_;
+//显示内容
+    unsigned score_;
 };
-}
+}  // namespace sfSnake
 
 #endif

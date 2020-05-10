@@ -117,13 +117,13 @@ void Snake::checkSelfCollisions() {
 void Snake::checkEdgeCollisions() {  //穿墙
     SnakeNode& headNode = nodes_[0];
 
-    if (headNode.getPosition().x <= 0)
+    if (headNode.getPosition().x < -0.2)
         headNode.setPosition(Game::Width, headNode.getPosition().y);
-    else if (headNode.getPosition().x >= Game::Width)
+    else if (headNode.getPosition().x > Game::Width+0.2)
         headNode.setPosition(0, headNode.getPosition().y);
-    else if (headNode.getPosition().y <= 0)
+    else if (headNode.getPosition().y < -0.2)
         headNode.setPosition(headNode.getPosition().x, Game::Height);
-    else if (headNode.getPosition().y >= Game::Height)
+    else if (headNode.getPosition().y > Game::Height+0.2)
         headNode.setPosition(headNode.getPosition().x, 0);
 }
 

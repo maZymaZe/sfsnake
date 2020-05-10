@@ -49,7 +49,6 @@ void Game::run() {
             timeSinceLastUpdate -= TimePerFrame;
             handleInput();
             update(TimePerFrame);
-            // render();
         }
         //反复刷
         render();

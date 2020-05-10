@@ -23,7 +23,6 @@ Snake::Snake() : direction_(Direction::Up), hitSelf_(false) {
     dieBuffer_.loadFromFile("Sounds/die.wav");
     dieSound_.setBuffer(dieBuffer_);
     dieSound_.setVolume(50);
-
     //音效设置
 }
 
@@ -63,48 +62,19 @@ void Snake::checkFruitCollisions(std::vector<Fruit>& fruits) {
 
     if (toRemove != fruits.end()) {
         pickupSound_.play();
-        // grow();
         fruits.erase(toRemove);
         return;
-        //吃到处理
+        //（吃到处理：不去尾，没吃到去尾）
     } else
         nodes_.pop_back();
 }
-/*
-void Snake::grow() {  //不解：为什么可以根据dir定尾部？
-    switch (direction_) {
-        case Direction::Up:
-            nodes_.push_back(SnakeNode(
-                sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x,
-                             nodes_[nodes_.size() - 1].getPosition().y +
-                                 SnakeNode::Height)));
-            break;
-        case Direction::Down:
-            nodes_.push_back(SnakeNode(
-                sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x,
-                             nodes_[nodes_.size() - 1].getPosition().y -
-                                 SnakeNode::Height)));
-            break;
-        case Direction::Left:
-            nodes_.push_back(SnakeNode(sf::Vector2f(
-                nodes_[nodes_.size() - 1].getPosition().x + SnakeNode::Width,
-                nodes_[nodes_.size() - 1].getPosition().y)));
-            break;
-        case Direction::Right:
-            nodes_.push_back(SnakeNode(sf::Vector2f(
-                nodes_[nodes_.size() - 1].getPosition().x - SnakeNode::Width,
-                nodes_[nodes_.size() - 1].getPosition().y)));
-            break;
-    }
-}
-*/
+
 unsigned Snake::getSize() const { return nodes_.size(); }
 
 bool Snake::hitSelf() const { return hitSelf_; }
 
 void Snake::checkSelfCollisions() {
     SnakeNode& headNode = nodes_[0];
-
     for (decltype(nodes_.size()) i = 1; i < nodes_.size(); ++i) {
         if (headNode.getBounds().intersects(nodes_[i].getBounds())) {
             dieSound_.play();
@@ -116,29 +86,24 @@ void Snake::checkSelfCollisions() {
 
 void Snake::checkEdgeCollisions() {  //穿墙
     SnakeNode& headNode = nodes_[0];
-
+//此处0.2是为了解决浮点数判定问题出现的bug
     if (headNode.getPosition().x < -0.2)
         headNode.setPosition(Game::Width, headNode.getPosition().y);
     else if (headNode.getPosition().x > Game::Width+0.2)
         headNode.setPosition(0, headNode.getPosition().y);
-    else if (headNode.getPosition().y < -0.2)
+    if (headNode.getPosition().y < -0.2)
         headNode.setPosition(headNode.getPosition().x, Game::Height);
     else if (headNode.getPosition().y > Game::Height+0.2)
         headNode.setPosition(headNode.getPosition().x, 0);
 }
 
 void Snake::move() {
-    /* for (decltype(nodes_.size()) i = nodes_.size() - 1; i > 0; --i) {
-         nodes_[i].setPosition(nodes_.at(i - 1).getPosition());
-                 //尾部向头移(是设位置，整体顺序不变)
-     }*/
-    //头部移动（此前与前一个重合）
+    //添加一个新头
     switch (direction_) {
         case Direction::Up:
             nodes_.push_front(SnakeNode(
                 sf::Vector2f(nodes_[0].getPosition().x,
                              nodes_[0].getPosition().y - SnakeNode::Height)));
-            // nodes_[0].move(0, -SnakeNode::Height);
             break;
         case Direction::Down:
             nodes_.push_front(SnakeNode(

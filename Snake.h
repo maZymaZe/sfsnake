@@ -4,7 +4,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <deque>
-#include <vector>
 
 #include "Fruit.h"
 #include "SnakeNode.h"
@@ -32,7 +31,6 @@ class Snake {
 
    private:
     void move();
-    // void grow();
     void checkEdgeCollisions();  //碰边
     void checkSelfCollisions();  //碰自己
     void initNodes();

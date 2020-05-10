@@ -12,7 +12,7 @@ const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);  //这里大概指1
 std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();
 
 Game::Game() : window_(sf::VideoMode(Game::Width, Game::Height), "sfSnake") {
-	//此处以上可以设置屏幕大小
+    //此处以上可以设置屏幕大小
     bgMusic_.openFromFile("Music/bg_music.wav");
     bgMusic_.setLoop(true);
     bgMusic_.play();
@@ -44,13 +44,14 @@ void Game::run() {
     while (window_.isOpen()) {
         sf::Time delta = clock.restart();
         timeSinceLastUpdate += delta;
-		//处理重启的一小段时间
+        //处理重启的一小段时间
         while (timeSinceLastUpdate > Game::TimePerFrame) {
             timeSinceLastUpdate -= TimePerFrame;
             handleInput();
             update(TimePerFrame);
+            // render();
         }
-		//反复刷
+        //反复刷
         render();
     }
 }

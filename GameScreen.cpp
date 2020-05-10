@@ -1,51 +1,45 @@
-#include <SFML/Graphics.hpp>
-
-#include <random>
-#include <memory>
-
 #include "GameScreen.h"
-#include "GameOverScreen.h"
+
+#include <SFML/Graphics.hpp>
+#include <memory>
+#include <random>
+
 #include "Game.h"
+#include "GameOverScreen.h"
 
 using namespace sfSnake;
 
-GameScreen::GameScreen() : snake_()
-{
-	//生成蛇
+GameScreen::GameScreen() : snake_() {
+    //生成蛇
 }
 
-void GameScreen::handleInput(sf::RenderWindow& window)
+void GameScreen::handleInput(sf::RenderWindow& window) { snake_.handleInput(); }
+
+void GameScreen::update(sf::Time delta)  //刷新时的处理
 {
-	snake_.handleInput();
+    if (fruit_.size() == 0) generateFruit();
+
+    snake_.update(delta);
+    snake_.checkFruitCollisions(fruit_);
+
+    if (snake_.hitSelf())
+        Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize());
+    //处理撞墙，传长度，处理分数
 }
 
-void GameScreen::update(sf::Time delta)   //刷新时的处理
-{
-	if (fruit_.size() == 0)
-		generateFruit();
+void GameScreen::render(sf::RenderWindow& window) {
+    snake_.render(window);
 
-	snake_.update(delta);
-	snake_.checkFruitCollisions(fruit_);
-
-	if (snake_.hitSelf())
-		Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize());
-		//处理撞墙，传长度，处理分数
+    for (auto fruit : fruit_) fruit.render(window);
 }
 
-void GameScreen::render(sf::RenderWindow& window)
-{
-	snake_.render(window);
+void GameScreen::generateFruit() {
+    static std::default_random_engine engine(time(NULL));
+    static std::uniform_int_distribution<int> xDistribution(
+        0, Game::Width - SnakeNode::Width);
+    static std::uniform_int_distribution<int> yDistribution(
+        0, Game::Height - SnakeNode::Height);
 
-	for (auto fruit : fruit_)
-		fruit.render(window);
+    fruit_.push_back(
+        Fruit(sf::Vector2f(xDistribution(engine), yDistribution(engine))));
 }
-
-void GameScreen::generateFruit()
-{
-	static std::default_random_engine engine(time(NULL));
-	static std::uniform_int_distribution<int> xDistribution(0, Game::Width - SnakeNode::Width);
-	static std::uniform_int_distribution<int> yDistribution(0, Game::Height - SnakeNode::Height);
-
-	fruit_.push_back(Fruit(sf::Vector2f(xDistribution(engine), yDistribution(engine))));
-}
-

@@ -3,6 +3,7 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <deque>
 #include <vector>
 
 #include "Fruit.h"
@@ -31,7 +32,7 @@ class Snake {
 
    private:
     void move();
-    void grow();
+    // void grow();
     void checkEdgeCollisions();  //碰边
     void checkSelfCollisions();  //碰自己
     void initNodes();
@@ -39,7 +40,7 @@ class Snake {
     bool hitSelf_;
 
     sf::Vector2f position_;
-    Direction direction_;//头的方向
+    Direction direction_;  //头的方向
 
     sf::SoundBuffer pickupBuffer_;
     sf::Sound pickupSound_;
@@ -47,8 +48,8 @@ class Snake {
     sf::SoundBuffer dieBuffer_;
     sf::Sound dieSound_;
 
-    std::vector<SnakeNode> nodes_;
-	//蛇身记录，第0是头，最后是尾
+    std::deque<SnakeNode> nodes_;
+    //蛇身记录，第0是头，最后是尾
 
     static const int InitialSize;
 };

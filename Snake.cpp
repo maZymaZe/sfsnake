@@ -11,7 +11,7 @@
 
 using namespace sfSnake;
 
-const int Snake::InitialSize = 5;//初始长度
+const int Snake::InitialSize = 5;  //初始长度
 
 Snake::Snake() : direction_(Direction::Up), hitSelf_(false) {
     initNodes();
@@ -24,10 +24,10 @@ Snake::Snake() : direction_(Direction::Up), hitSelf_(false) {
     dieSound_.setBuffer(dieBuffer_);
     dieSound_.setVolume(50);
 
-	//音效设置
+    //音效设置
 }
 
-void Snake::initNodes() {//初始化
+void Snake::initNodes() {  //初始化
     for (int i = 0; i < Snake::InitialSize; ++i) {
         nodes_.push_back(
             SnakeNode(sf::Vector2f(Game::Width / 2 - SnakeNode::Width / 2,
@@ -36,7 +36,7 @@ void Snake::initNodes() {//初始化
     }
 }
 
-void Snake::handleInput() {//改方向：此处要排除180°转向
+void Snake::handleInput() {  //改方向：此处要排除180°转向
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         direction_ = Direction::Up;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -47,7 +47,7 @@ void Snake::handleInput() {//改方向：此处要排除180°转向
         direction_ = Direction::Right;
 }
 
-void Snake::update(sf::Time delta) {//刷新
+void Snake::update(sf::Time delta) {  //刷新
     move();
     checkEdgeCollisions();
     checkSelfCollisions();
@@ -56,21 +56,22 @@ void Snake::update(sf::Time delta) {//刷新
 void Snake::checkFruitCollisions(std::vector<Fruit>& fruits) {
     decltype(fruits.begin()) toRemove = fruits.end();
 
-    for (std::vector<Fruit>::iterator it = fruits.begin(); it != fruits.end();
-         ++it) {
+    for (auto it = fruits.begin(); it != fruits.end(); ++it) {
         if (it->getBounds().intersects(nodes_[0].getBounds())) toRemove = it;
-		//可能是接近到一定程度给吃
+        //可能是接近到一定程度给吃
     }
 
     if (toRemove != fruits.end()) {
         pickupSound_.play();
-        grow();
+        // grow();
         fruits.erase(toRemove);
-		//吃到处理
-    }
+        return;
+        //吃到处理
+    } else
+        nodes_.pop_back();
 }
-
-void Snake::grow() {    //不解：为什么可以根据dir定尾部？
+/*
+void Snake::grow() {  //不解：为什么可以根据dir定尾部？
     switch (direction_) {
         case Direction::Up:
             nodes_.push_back(SnakeNode(
@@ -96,7 +97,7 @@ void Snake::grow() {    //不解：为什么可以根据dir定尾部？
             break;
     }
 }
-
+*/
 unsigned Snake::getSize() const { return nodes_.size(); }
 
 bool Snake::hitSelf() const { return hitSelf_; }
@@ -113,7 +114,7 @@ void Snake::checkSelfCollisions() {
     }
 }
 
-void Snake::checkEdgeCollisions() {//穿墙
+void Snake::checkEdgeCollisions() {  //穿墙
     SnakeNode& headNode = nodes_[0];
 
     if (headNode.getPosition().x <= 0)
@@ -127,23 +128,32 @@ void Snake::checkEdgeCollisions() {//穿墙
 }
 
 void Snake::move() {
-    for (decltype(nodes_.size()) i = nodes_.size() - 1; i > 0; --i) {
-        nodes_[i].setPosition(nodes_.at(i - 1).getPosition());
-		//尾部向头移(是设位置，整体顺序不变)
-    }
-		//头部移动（此前与前一个重合）
+    /* for (decltype(nodes_.size()) i = nodes_.size() - 1; i > 0; --i) {
+         nodes_[i].setPosition(nodes_.at(i - 1).getPosition());
+                 //尾部向头移(是设位置，整体顺序不变)
+     }*/
+    //头部移动（此前与前一个重合）
     switch (direction_) {
         case Direction::Up:
-            nodes_[0].move(0, -SnakeNode::Height);
+            nodes_.push_front(SnakeNode(
+                sf::Vector2f(nodes_[0].getPosition().x,
+                             nodes_[0].getPosition().y - SnakeNode::Height)));
+            // nodes_[0].move(0, -SnakeNode::Height);
             break;
         case Direction::Down:
-            nodes_[0].move(0, SnakeNode::Height);
+            nodes_.push_front(SnakeNode(
+                sf::Vector2f(nodes_[0].getPosition().x,
+                             nodes_[0].getPosition().y + SnakeNode::Height)));
             break;
         case Direction::Left:
-            nodes_[0].move(-SnakeNode::Width, 0);
+            nodes_.push_front(SnakeNode(
+                sf::Vector2f(nodes_[0].getPosition().x - SnakeNode::Width,
+                             nodes_[0].getPosition().y)));
             break;
         case Direction::Right:
-            nodes_[0].move(SnakeNode::Width, 0);
+            nodes_.push_front(SnakeNode(
+                sf::Vector2f(nodes_[0].getPosition().x + SnakeNode::Width,
+                             nodes_[0].getPosition().y)));
             break;
     }
 }

@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "GameScreen.h"
 #include "GameOverScreen.h"
+#include "MenuScreen.h"
 
 using namespace sfSnake;
 
@@ -29,7 +30,7 @@ GameOverScreen::GameOverScreen(std::size_t score) : score_(score)
 void GameOverScreen::handleInput(sf::RenderWindow& window)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		Game::Screen = std::make_shared<GameScreen>();
+		Game::Screen = std::make_shared<MenuScreen>();
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		window.close();
 }

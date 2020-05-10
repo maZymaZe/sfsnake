@@ -24,13 +24,12 @@ class Game {
     //自然是屏幕大小设置，需要某种整除关系
     static std::shared_ptr<Screen> Screen;
 
-    static bool drawgrid;
     static int gridcolor;
+    static int bg;
 
    private:
     sf::RenderWindow window_;
     sf::Music bgMusic_;
-
     static const sf::Time TimePerFrame;
 };
 }  // namespace sfSnake

@@ -7,8 +7,8 @@
 
 using namespace sfSnake;
 
-bool Game::drawgrid=true;
 int Game::gridcolor=2;
+int Game::bg=0;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);  //这里大概指10Hz
 
 

@@ -30,7 +30,7 @@ void GameScreen::update(sf::Time delta)  //刷新时的处理
 
 void GameScreen::render(sf::RenderWindow& window) {
     snake_.render(window);
-    for (auto fruit : fruit_) fruit.render(window); 
+    for (auto fruit : fruit_) fruit.render(window);
     if (Game::drawgrid) {
         drawxline(window);
         drawyline(window);
@@ -63,12 +63,13 @@ void drawxline(sf::RenderWindow& window) {
         default:
             color = (sf::Color::White);
     }
-    sf::VertexArray line(sf::Lines, Game::Height / SnakeNode::Height + 1);
-    for (int i = 0; i <= Game::Height; i += SnakeNode::Height) {
-        line[i / SnakeNode::Height] =
-            sf::Vertex(sf::Vector2f(0, i), color, sf::Vector2f(Game::Width, i));
+    for (int i = SnakeNode::Height+2; i < Game::Height; i += SnakeNode::Height+2) {
+        sf::RectangleShape shape_;
+        shape_.setPosition(sf::Vector2f(0, i));
+        shape_.setFillColor(color);
+        shape_.setSize(sf::Vector2f(Game::Width, 1));
+        window.draw(shape_);
     }
-    window.draw(line);
 }
 void drawyline(sf::RenderWindow& window) {
     auto color = sf::Color::White;
@@ -85,10 +86,11 @@ void drawyline(sf::RenderWindow& window) {
         default:
             color = (sf::Color::White);
     }
-    sf::VertexArray line(sf::Lines, Game::Width / SnakeNode::Width + 1);
-    for (int i = 0; i <= Game::Width; i += SnakeNode::Width) {
-        line[i / SnakeNode::Width] = sf::Vertex(sf::Vector2f(0, i), color,
-                                                sf::Vector2f(Game::Height, i));
+    for (int i = SnakeNode::Width+2; i < Game::Width; i += SnakeNode::Width+2) {
+        sf::RectangleShape shape_;
+        shape_.setPosition(sf::Vector2f(i, 0));
+        shape_.setFillColor(color);
+        shape_.setSize(sf::Vector2f(1, Game::Height));
+        window.draw(shape_);
     }
-    window.draw(line);
 }

@@ -86,14 +86,14 @@ void Snake::checkSelfCollisions() {
 
 void Snake::checkEdgeCollisions() {  //穿墙
     SnakeNode& headNode = nodes_[0];
-//此处0.2是为了解决浮点数判定问题出现的bug
-    if (headNode.getPosition().x < -0.2)
-        headNode.setPosition(Game::Width, headNode.getPosition().y);
-    else if (headNode.getPosition().x > Game::Width+0.2)
+//此处0.01是为了解决浮点数判定问题出现的bug
+    if (headNode.getPosition().x < 0)
+        headNode.setPosition(Game::Width-10, headNode.getPosition().y);
+    else if (headNode.getPosition().x > Game::Width-10)
         headNode.setPosition(0, headNode.getPosition().y);
-    if (headNode.getPosition().y < -0.2)
-        headNode.setPosition(headNode.getPosition().x, Game::Height);
-    else if (headNode.getPosition().y > Game::Height+0.2)
+    if (headNode.getPosition().y < 0)
+        headNode.setPosition(headNode.getPosition().x, Game::Height-10);
+    else if (headNode.getPosition().y > Game::Height-10)
         headNode.setPosition(headNode.getPosition().x, 0);
 }
 

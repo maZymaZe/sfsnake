@@ -23,5 +23,6 @@ class GameScreen : public Screen {
     std::vector<Fruit> fruit_;
 };
 }  // namespace sfSnake
-
+void drawyline(sf::RenderWindow& window);
+void drawxline(sf::RenderWindow& window);
 #endif

@@ -7,7 +7,10 @@
 
 using namespace sfSnake;
 
+bool Game::drawgrid=false;
+int Game::gridcolor=0;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);  //这里大概指10Hz
+
 
 std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();
 
@@ -17,6 +20,7 @@ Game::Game() : window_(sf::VideoMode(Game::Width, Game::Height), "sfSnake") {
     bgMusic_.setLoop(true);
     bgMusic_.play();
     // bgm的设置，需要放在音乐文件夹并指定
+    
 }
 
 void Game::handleInput() {

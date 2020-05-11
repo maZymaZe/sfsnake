@@ -10,7 +10,6 @@
 
 using namespace sfSnake;
 
-
 GameScreen::GameScreen() : snake_() {
     //生成蛇
 }
@@ -40,16 +39,15 @@ void GameScreen::render(sf::RenderWindow& window) {
 void GameScreen::generateFruit() {
     static std::default_random_engine engine(time(NULL));
     static std::uniform_int_distribution<int> xDistribution(
-        3*SnakeNode::Width, Game::Width - 3*SnakeNode::Width);
+        3 * SnakeNode::Width, Game::Width - 3 * SnakeNode::Width);
     static std::uniform_int_distribution<int> yDistribution(
-        3*SnakeNode::Height, Game::Height - 3*SnakeNode::Height);
-    static std::uniform_int_distribution<int> fruitmode(0,7);
-    int tx=xDistribution(engine), ty=yDistribution(engine);
-    while(!snake_.ok(tx,ty)){
-        tx=xDistribution(engine), ty=yDistribution(engine);
+        3 * SnakeNode::Height, Game::Height - 3 * SnakeNode::Height);
+    static std::uniform_int_distribution<int> fruitmode(0, 7);
+    int tx = xDistribution(engine), ty = yDistribution(engine);
+    while (!snake_.ok(tx, ty)) {  //检测是否合法生成位置
+        tx = xDistribution(engine), ty = yDistribution(engine);
     }
-    fruit_.push_back(
-        Fruit(sf::Vector2f(tx, ty),fruitmode(engine)));
+    fruit_.push_back(Fruit(sf::Vector2f(tx, ty), fruitmode(engine)));
 }
 void drawbg(sf::RenderWindow& window) {
     auto color = sf::Color::Red;
@@ -119,4 +117,4 @@ void drawyline(sf::RenderWindow& window) {
         shape_.setSize(sf::Vector2f(1, Game::Height));
         window.draw(shape_);
     }
-} 
+}

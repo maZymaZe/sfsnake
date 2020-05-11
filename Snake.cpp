@@ -13,7 +13,7 @@
 using namespace sfSnake;
 
 const int Snake::InitialSize = 5;  //初始长度
-Snake::Snake() : dx(0), dy(-1.0), hitSelf_(false) {
+Snake::Snake() : hitSelf_(false), dx(0.0), dy(-1.0) {
     initNodes();
 
     pickupBuffer_.loadFromFile("Sounds/pickup.aiff");
@@ -37,13 +37,13 @@ void Snake::initNodes() {  //初始化
 
 void Snake::handleInput() {  //改方向：此处要排除180°转向
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        dx = 0, dy = -1.0;
+        dx = 0.0, dy = -1.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        dx = 0, dy = 1.0;
+        dx = 0.0, dy = 1.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        dx = -1.0, dy = 0;
+        dx = -1.0, dy = 0.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        dx = 1.0, dy = 0;
+        dx = 1.0, dy = 0.0;
 
     if (Game::getmouse) {
         double xx = nodes_[0].getPosition().x, yy = nodes_[0].getPosition().y;
@@ -71,21 +71,12 @@ void Snake::checkFruitCollisions(std::vector<Fruit>& fruits) {
         pickupSound_.play();
         if ((*toRemove).sz == 0)
             nodes_.pop_back();
-        else if ((*toRemove).sz == 1)
-            ;
-        else if ((*toRemove).sz == 2) {
-            move();
-            checkEdgeCollisions();
-            checkSelfCollisions();
-        }
-        else if ((*toRemove).sz == 3) {
-            move();
-            checkEdgeCollisions();
-            checkSelfCollisions();
-            move();
-            checkEdgeCollisions();
-            checkSelfCollisions();
-        }
+        else
+            for (int i = 1; i < (*toRemove).sz; ++i) {
+                move();
+                checkEdgeCollisions();
+                checkSelfCollisions();
+            }
         fruits.erase(toRemove);
         return;
         //（吃到处理：不去尾，没吃到去尾）
@@ -100,7 +91,7 @@ bool Snake::hitSelf() const { return hitSelf_; }
 void Snake::checkSelfCollisions() {
     SnakeNode& headNode = nodes_[0];
     double xx = headNode.getPosition().x, yy = headNode.getPosition().y;
-    for (decltype(nodes_.size()) i = 1; i < nodes_.size(); ++i) {
+    for (long long unsigned int i = 1; i < nodes_.size(); ++i) {
         double tx = nodes_[i].getPosition().x - xx,
                ty = nodes_[i].getPosition().y - yy;
         // if (headNode.getBounds().intersects(nodes_[i].getBounds()))
@@ -136,10 +127,10 @@ void Snake::render(sf::RenderWindow& window) {
     for (auto node : nodes_) node.render(window);
 }
 
-bool Snake::ok(int x, int y){
-    for (auto node : nodes_){
-        double xx=node.getPosition().x, yy = node.getPosition().y;
-        if((xx-x)*(xx-x)<120&&(yy-y)*(yy-y)<120){
+bool Snake::ok(int x, int y) {
+    for (auto node : nodes_) {
+        double xx = node.getPosition().x, yy = node.getPosition().y;
+        if ((xx - x) * (xx - x) < 120 && (yy - y) * (yy - y) < 120) {
             return false;
         }
     }

@@ -18,7 +18,6 @@ class Game {
     void handleInput();
     void update(sf::Time delta);
     void render();
-    
 
     static const int Width = 640;
     static const int Height = 480;
@@ -27,10 +26,11 @@ class Game {
 
     static int gridcolor;
     static int bg;
-    
+
     static sf::Mouse mouse;
-    static double mousex,mousey;
+    static double mousex, mousey;
     static bool getmouse;
+
    private:
     sf::RenderWindow window_;
     sf::Music bgMusic_;

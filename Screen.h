@@ -3,14 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 
-class Screen
-{
-	//屏幕母类
-public:
-	virtual void handleInput(sf::RenderWindow& window) = 0;
-	virtual void update(sf::Time delta) = 0;
-	virtual void render(sf::RenderWindow& window) = 0;  //渲染
-
+class Screen {
+    //屏幕母类
+   public:
+    virtual void handleInput(sf::RenderWindow& window) = 0;
+    virtual void update(sf::Time delta) = 0;
+    virtual void render(sf::RenderWindow& window) = 0;  //渲染
 };
 
 #endif

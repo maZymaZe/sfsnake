@@ -56,7 +56,7 @@ void Game::run() {
                 Game::getmouse = true;
                 Game::mousex = mouse.getPosition(window_).x;
                 Game::mousey = mouse.getPosition(window_).y;
-            }
+            }  //读取鼠标状态
             handleInput();
             update(TimePerFrame);
         }

@@ -75,8 +75,12 @@ bool Snake::hitSelf() const { return hitSelf_; }
 
 void Snake::checkSelfCollisions() {
     SnakeNode& headNode = nodes_[0];
+    double xx=headNode.getPosition().x,yy=headNode.getPosition().y;
     for (decltype(nodes_.size()) i = 1; i < nodes_.size(); ++i) {
-        if (headNode.getBounds().intersects(nodes_[i].getBounds())) {
+        double tx=nodes_[i].getPosition().x-xx,ty=nodes_[i].getPosition().y-yy;
+        //if (headNode.getBounds().intersects(nodes_[i].getBounds())) 
+        if(tx*tx+ty*ty<=4)
+        {
             dieSound_.play();
             sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
             hitSelf_ = true;

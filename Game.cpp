@@ -7,22 +7,21 @@
 
 using namespace sfSnake;
 
-int Game::gridcolor=2;
-int Game::bg=0;
-double Game::mousey=0,Game::mousex=0;
-sf::RenderWindow Game::window_(sf::VideoMode(Game::Width, Game::Height), "sfSnake");
+int Game::gridcolor = 2;
+int Game::bg = 0;
+double Game::mousey = 0, Game::mousex = 0;
+bool Game::getmouse=false;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);  //这里大概指10Hz
-
 
 std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();
 
-Game::Game(){
+Game::Game():window_(sf::VideoMode(Game::Width, Game::Height),
+                               "sfSnake") {
     //此处以上可以设置屏幕大小
     bgMusic_.openFromFile("Music/bg_music.wav");
     bgMusic_.setLoop(true);
     bgMusic_.play();
     // bgm的设置，需要放在音乐文件夹并指定
-    
 }
 
 void Game::handleInput() {
@@ -52,20 +51,17 @@ void Game::run() {
         timeSinceLastUpdate += delta;
         //处理重启的一小段时间
         while (timeSinceLastUpdate > Game::TimePerFrame) {
+            getmouse=false;
             timeSinceLastUpdate -= TimePerFrame;
+            if (Game::mouse.isButtonPressed(sf::Mouse::Left)) {
+                Game::getmouse=true;
+                Game::mousex = mouse.getPosition(window_).x;
+                Game::mousey = mouse.getPosition(window_).y;
+            }
             handleInput();
             update(TimePerFrame);
         }
         //反复刷
         render();
     }
-}
-bool Game::getmouse(){
-    if (Game::mouse.isButtonPressed(sf::Mouse::Left))
-    {
-        Game::mousex=mouse.getPosition(window_).x;
-        Game::mousey=mouse.getPosition(window_).y;
-        return true;
-    }
-    return false;
 }

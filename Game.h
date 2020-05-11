@@ -30,9 +30,9 @@ class Game {
     
     static sf::Mouse mouse;
     static double mousex,mousey;
-    static bool getmouse();
+    static bool getmouse;
    private:
-    static sf::RenderWindow window_;
+    sf::RenderWindow window_;
     sf::Music bgMusic_;
     static const sf::Time TimePerFrame;
 };

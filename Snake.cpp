@@ -45,7 +45,7 @@ void Snake::handleInput() {  //改方向：此处要排除180°转向
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         dx = 1.0, dy = 0;
 
-    if (Game::getmouse()) {
+    if (Game::getmouse) {
         double xx = nodes_[0].getPosition().x, yy = nodes_[0].getPosition().y;
         double ddx = Game::mousex - xx, ddy = Game::mousey - yy;
         dx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
@@ -87,7 +87,7 @@ void Snake::checkSelfCollisions() {
         double tx = nodes_[i].getPosition().x - xx,
                ty = nodes_[i].getPosition().y - yy;
         // if (headNode.getBounds().intersects(nodes_[i].getBounds()))
-        if (tx * tx + ty * ty <= 4) {
+        if (tx * tx + ty * ty <= 40) {
             dieSound_.play();
             sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
             hitSelf_ = true;

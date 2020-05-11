@@ -9,11 +9,11 @@
 #include "SnakeNode.h"
 
 namespace sfSnake {
-enum class Direction  //方向的枚举
+/*enum class Direction  //方向的枚举
 { Left,
   Right,
   Up,
-  Down };
+  Down };*/
 
 class Snake {
    public:
@@ -38,7 +38,8 @@ class Snake {
     bool hitSelf_;
 
     sf::Vector2f position_;
-    Direction direction_;  //头的方向
+   // Direction direction_;  //头的方向
+    double dx,dy;
 
     sf::SoundBuffer pickupBuffer_;
     sf::Sound pickupSound_;

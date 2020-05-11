@@ -13,7 +13,7 @@ using namespace sfSnake;
 
 const int Snake::InitialSize = 5;  //初始长度
 
-Snake::Snake() : direction_(Direction::Up), hitSelf_(false) {
+Snake::Snake() : dx(0), dy(-1.0), hitSelf_(false) {
     initNodes();
 
     pickupBuffer_.loadFromFile("Sounds/pickup.aiff");
@@ -37,13 +37,13 @@ void Snake::initNodes() {  //初始化
 
 void Snake::handleInput() {  //改方向：此处要排除180°转向
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        direction_ = Direction::Up;
+        dx = 0, dy = -1.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        direction_ = Direction::Down;
+        dx = 0, dy = 1.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        direction_ = Direction::Left;
+        dx = -1.0, dy = 0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        direction_ = Direction::Right;
+        dx = 1.0, dy = .0;
 }
 
 void Snake::update(sf::Time delta) {  //刷新
@@ -86,41 +86,22 @@ void Snake::checkSelfCollisions() {
 
 void Snake::checkEdgeCollisions() {  //穿墙
     SnakeNode& headNode = nodes_[0];
-//此处0.01是为了解决浮点数判定问题出现的bug
+    //此处0.01是为了解决浮点数判定问题出现的bug
     if (headNode.getPosition().x < 0)
-        headNode.setPosition(Game::Width-10, headNode.getPosition().y);
-    else if (headNode.getPosition().x > Game::Width-10)
+        headNode.setPosition(Game::Width - 10, headNode.getPosition().y);
+    else if (headNode.getPosition().x > Game::Width - 10)
         headNode.setPosition(0, headNode.getPosition().y);
     if (headNode.getPosition().y < 0)
-        headNode.setPosition(headNode.getPosition().x, Game::Height-10);
-    else if (headNode.getPosition().y > Game::Height-10)
+        headNode.setPosition(headNode.getPosition().x, Game::Height - 10);
+    else if (headNode.getPosition().y > Game::Height - 10)
         headNode.setPosition(headNode.getPosition().x, 0);
 }
 
 void Snake::move() {
     //添加一个新头
-    switch (direction_) {
-        case Direction::Up:
-            nodes_.push_front(SnakeNode(
-                sf::Vector2f(nodes_[0].getPosition().x,
-                             nodes_[0].getPosition().y - SnakeNode::Height)));
-            break;
-        case Direction::Down:
-            nodes_.push_front(SnakeNode(
-                sf::Vector2f(nodes_[0].getPosition().x,
-                             nodes_[0].getPosition().y + SnakeNode::Height)));
-            break;
-        case Direction::Left:
-            nodes_.push_front(SnakeNode(
-                sf::Vector2f(nodes_[0].getPosition().x - SnakeNode::Width,
-                             nodes_[0].getPosition().y)));
-            break;
-        case Direction::Right:
-            nodes_.push_front(SnakeNode(
-                sf::Vector2f(nodes_[0].getPosition().x + SnakeNode::Width,
-                             nodes_[0].getPosition().y)));
-            break;
-    }
+    nodes_.push_front(SnakeNode(
+        sf::Vector2f(nodes_[0].getPosition().x + dx * SnakeNode::Width,
+                     nodes_[0].getPosition().y + dy * SnakeNode::Height)));
 }
 
 void Snake::render(sf::RenderWindow& window) {

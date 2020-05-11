@@ -69,6 +69,23 @@ void Snake::checkFruitCollisions(std::vector<Fruit>& fruits) {
 
     if (toRemove != fruits.end()) {
         pickupSound_.play();
+        if ((*toRemove).sz == 0)
+            nodes_.pop_back();
+        else if ((*toRemove).sz == 1)
+            ;
+        else if ((*toRemove).sz == 2) {
+            move();
+            checkEdgeCollisions();
+            checkSelfCollisions();
+        }
+        else if ((*toRemove).sz == 3) {
+            move();
+            checkEdgeCollisions();
+            checkSelfCollisions();
+            move();
+            checkEdgeCollisions();
+            checkSelfCollisions();
+        }
         fruits.erase(toRemove);
         return;
         //（吃到处理：不去尾，没吃到去尾）

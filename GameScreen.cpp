@@ -44,8 +44,12 @@ void GameScreen::generateFruit() {
     static std::uniform_int_distribution<int> yDistribution(
         3*SnakeNode::Height, Game::Height - 3*SnakeNode::Height);
     static std::uniform_int_distribution<int> fruitmode(0,7);
+    int tx=xDistribution(engine), ty=yDistribution(engine);
+    while(!snake_.ok(tx,ty)){
+        tx=xDistribution(engine), ty=yDistribution(engine);
+    }
     fruit_.push_back(
-        Fruit(sf::Vector2f(xDistribution(engine), yDistribution(engine)),fruitmode(engine)));
+        Fruit(sf::Vector2f(tx, ty),fruitmode(engine)));
 }
 void drawbg(sf::RenderWindow& window) {
     auto color = sf::Color::Red;
@@ -115,4 +119,4 @@ void drawyline(sf::RenderWindow& window) {
         shape_.setSize(sf::Vector2f(1, Game::Height));
         window.draw(shape_);
     }
-}
+} 

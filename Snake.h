@@ -24,6 +24,7 @@ class Snake {
     void render(sf::RenderWindow& window);
 
     void checkFruitCollisions(std::vector<Fruit>& fruits);
+    bool ok(int x, int y);
 
     bool hitSelf() const;
     unsigned getSize() const;

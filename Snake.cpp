@@ -135,3 +135,13 @@ void Snake::move() {
 void Snake::render(sf::RenderWindow& window) {
     for (auto node : nodes_) node.render(window);
 }
+
+bool Snake::ok(int x, int y){
+    for (auto node : nodes_){
+        double xx=node.getPosition().x, yy = node.getPosition().y;
+        if((xx-x)*(xx-x)<120&&(yy-y)*(yy-y)<120){
+            return false;
+        }
+    }
+    return true;
+}

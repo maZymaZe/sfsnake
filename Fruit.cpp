@@ -4,7 +4,7 @@
 
 using namespace sfSnake;
 
-const float Fruit::Radius = 5.0f;  //设置大小
+const float Fruit::Radius = 10.0f;  //设置大小
 const int foodsize[8] = {1, 1, 1, 1, 2, 2, 3, 3};
 const int gr[8] = {0, 0, 1, 1, 2, 2, 3, 3};
 const sf::Color foodcolor[8] = {
@@ -16,7 +16,7 @@ Fruit::Fruit(sf::Vector2f position, int foodmode) {
     shape_.setRadius(Fruit::Radius * foodsize[foodmode]);
     shape_.setFillColor(foodcolor[foodmode]);
     shape_.setOutlineColor(sf::Color::Magenta);
-    shape_.setOutlineThickness(-1.f);
+    shape_.setOutlineThickness(-2.f);
 }
 
 void Fruit::render(sf::RenderWindow& window) { window.draw(shape_); }

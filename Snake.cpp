@@ -31,7 +31,7 @@ void Snake::initNodes() {  //初始化
         nodes_.push_back(
             SnakeNode(sf::Vector2f(Game::Width / 2 - SnakeNode::Width / 2,
                                    Game::Height / 2 - (SnakeNode::Height / 2) +
-                                       (SnakeNode::Height * i))));
+                                       (SnakeNode::Height * i)),0.0,-1.0));
     }
 }
 
@@ -48,8 +48,10 @@ void Snake::handleInput() {  //改方向：此处要排除180°转向
     if (Game::getmouse) {
         double xx = nodes_[0].getPosition().x, yy = nodes_[0].getPosition().y;
         double ddx = Game::mousex - xx, ddy = Game::mousey - yy;
-        dx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
-        dy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
+        if (!(ddx == 0 && ddy == 0)) {
+            dx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
+            dy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
+        }
     }
 }
 
@@ -95,7 +97,7 @@ void Snake::checkSelfCollisions() {
         double tx = nodes_[i].getPosition().x - xx,
                ty = nodes_[i].getPosition().y - yy;
         // if (headNode.getBounds().intersects(nodes_[i].getBounds()))
-        if (tx * tx + ty * ty <= 40) {
+        if (tx * tx + ty * ty <= 160) {
             dieSound_.play();
             sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
             hitSelf_ = true;
@@ -105,14 +107,14 @@ void Snake::checkSelfCollisions() {
 
 void Snake::checkEdgeCollisions() {  //穿墙
     SnakeNode& headNode = nodes_[0];
-    //此处0.01是为了解决浮点数判定问题出现的bug
+    //此处20是为了解决浮点数判定问题出现的bug
     if (headNode.getPosition().x < 0)
-        headNode.setPosition(Game::Width - 10, headNode.getPosition().y);
-    else if (headNode.getPosition().x > Game::Width - 10)
+        headNode.setPosition(Game::Width - 20, headNode.getPosition().y);
+    else if (headNode.getPosition().x > Game::Width - 20)
         headNode.setPosition(0, headNode.getPosition().y);
     if (headNode.getPosition().y < 0)
-        headNode.setPosition(headNode.getPosition().x, Game::Height - 10);
-    else if (headNode.getPosition().y > Game::Height - 10)
+        headNode.setPosition(headNode.getPosition().x, Game::Height - 20);
+    else if (headNode.getPosition().y > Game::Height - 20)
         headNode.setPosition(headNode.getPosition().x, 0);
 }
 
@@ -120,17 +122,19 @@ void Snake::move() {
     //添加一个新头
     nodes_.push_front(SnakeNode(
         sf::Vector2f(nodes_[0].getPosition().x + dx * SnakeNode::Width,
-                     nodes_[0].getPosition().y + dy * SnakeNode::Height)));
+                     nodes_[0].getPosition().y + dy * SnakeNode::Height),
+        dx, dy));
 }
 
 void Snake::render(sf::RenderWindow& window) {
-    for (auto node : nodes_) node.render(window);
+    for (long long unsigned int i = 0; i < nodes_.size(); ++i)
+        nodes_[i].render(window, i);
 }
 
 bool Snake::ok(int x, int y) {
     for (auto node : nodes_) {
         double xx = node.getPosition().x, yy = node.getPosition().y;
-        if ((xx - x) * (xx - x) < 120 && (yy - y) * (yy - y) < 120) {
+        if ((xx - x) * (xx - x) < 480 && (yy - y) * (yy - y) < 480) {
             return false;
         }
     }

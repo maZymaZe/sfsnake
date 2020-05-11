@@ -19,8 +19,8 @@ class Game {
     void update(sf::Time delta);
     void render();
 
-    static const int Width = 640;
-    static const int Height = 480;
+    static const int Width = 1280;
+    static const int Height = 960;
     //自然是屏幕大小设置，需要某种整除关系
     static std::shared_ptr<Screen> Screen;
 

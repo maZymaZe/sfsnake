@@ -1,6 +1,7 @@
 #include "Snake.h"
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
 #include <iostream>
 #include <memory>
 
@@ -12,7 +13,6 @@
 using namespace sfSnake;
 
 const int Snake::InitialSize = 5;  //初始长度
-
 Snake::Snake() : dx(0), dy(-1.0), hitSelf_(false) {
     initNodes();
 
@@ -43,7 +43,14 @@ void Snake::handleInput() {  //改方向：此处要排除180°转向
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         dx = -1.0, dy = 0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        dx = 1.0, dy = .0;
+        dx = 1.0, dy = 0;
+
+    if (Game::getmouse()) {
+        double xx = nodes_[0].getPosition().x, yy = nodes_[0].getPosition().y;
+        double ddx = Game::mousex - xx, ddy = Game::mousey - yy;
+        dx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
+        dy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
+    }
 }
 
 void Snake::update(sf::Time delta) {  //刷新
@@ -75,12 +82,12 @@ bool Snake::hitSelf() const { return hitSelf_; }
 
 void Snake::checkSelfCollisions() {
     SnakeNode& headNode = nodes_[0];
-    double xx=headNode.getPosition().x,yy=headNode.getPosition().y;
+    double xx = headNode.getPosition().x, yy = headNode.getPosition().y;
     for (decltype(nodes_.size()) i = 1; i < nodes_.size(); ++i) {
-        double tx=nodes_[i].getPosition().x-xx,ty=nodes_[i].getPosition().y-yy;
-        //if (headNode.getBounds().intersects(nodes_[i].getBounds())) 
-        if(tx*tx+ty*ty<=4)
-        {
+        double tx = nodes_[i].getPosition().x - xx,
+               ty = nodes_[i].getPosition().y - yy;
+        // if (headNode.getBounds().intersects(nodes_[i].getBounds()))
+        if (tx * tx + ty * ty <= 4) {
             dieSound_.play();
             sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
             hitSelf_ = true;

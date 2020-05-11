@@ -9,12 +9,14 @@ using namespace sfSnake;
 
 int Game::gridcolor=2;
 int Game::bg=0;
+double Game::mousey=0,Game::mousex=0;
+sf::RenderWindow Game::window_(sf::VideoMode(Game::Width, Game::Height), "sfSnake");
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);  //这里大概指10Hz
 
 
 std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();
 
-Game::Game() : window_(sf::VideoMode(Game::Width, Game::Height), "sfSnake") {
+Game::Game(){
     //此处以上可以设置屏幕大小
     bgMusic_.openFromFile("Music/bg_music.wav");
     bgMusic_.setLoop(true);
@@ -57,4 +59,13 @@ void Game::run() {
         //反复刷
         render();
     }
+}
+bool Game::getmouse(){
+    if (Game::mouse.isButtonPressed(sf::Mouse::Left))
+    {
+        Game::mousex=mouse.getPosition(window_).x;
+        Game::mousey=mouse.getPosition(window_).y;
+        return true;
+    }
+    return false;
 }

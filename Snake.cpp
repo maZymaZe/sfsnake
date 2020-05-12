@@ -36,23 +36,25 @@ void Snake::initNodes() {  //初始化
 }
 
 void Snake::handleInput() {  //改方向：此处要排除180°转向
+    double ndx=dx,ndy=dy;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        dx = 0.0, dy = -1.0;
+        ndx = 0.0, ndy = -1.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        dx = 0.0, dy = 1.0;
+        ndx = 0.0, ndy = 1.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        dx = -1.0, dy = 0.0;
+        ndx = -1.0, ndy = 0.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        dx = 1.0, dy = 0.0;
+        ndx = 1.0, ndy = 0.0;
 
     if (Game::getmouse) {
         double xx = nodes_[0].getPosition().x, yy = nodes_[0].getPosition().y;
         double ddx = Game::mousex - xx, ddy = Game::mousey - yy;
         if (!(ddx == 0 && ddy == 0)) {
-            dx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
-            dy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
+            ndx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
+            ndy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
         }
     }
+    if((dx-ndx)*(dx-ndx)+(dy-ndy)*(dy-ndy)<3.5)dx=ndx,dy=ndy;
 }
 
 void Snake::update(sf::Time delta) {  //刷新

@@ -14,7 +14,8 @@ GameScreen::GameScreen() : snake_() {
     //生成蛇
     Game::ingame=true;
 }
-
+sf::Color colorname[4]={(sf::Color::White),(sf::Color::Black),
+(sf::Color(150, 75, 0)),(sf::Color::Transparent)};
 void GameScreen::handleInput(sf::RenderWindow& window) { snake_.handleInput(); }
 
 void GameScreen::update(sf::Time delta)  //刷新时的处理
@@ -51,20 +52,7 @@ void GameScreen::generateFruit() {
     fruit_.push_back(Fruit(sf::Vector2f(tx, ty), fruitmode(engine)));
 }
 void drawbg(sf::RenderWindow& window) {
-    auto color = sf::Color::Red;
-    switch (Game::bg) {
-        case 0:
-            color = (sf::Color::White);
-            break;
-        case 1:
-            color = (sf::Color::Black);
-            break;
-        case 2:
-            color = (sf::Color(150, 75, 0));  // brown
-            break;
-        default:
-            color = (sf::Color::White);
-    }
+    auto color = colorname[Game::bg];
     sf::RectangleShape shape_;
     shape_.setPosition(sf::Vector2f(0, 0));
     shape_.setFillColor(color);
@@ -72,20 +60,7 @@ void drawbg(sf::RenderWindow& window) {
     window.draw(shape_);
 }
 void drawxline(sf::RenderWindow& window) {
-    auto color = sf::Color::Red;
-    switch (Game::gridcolor) {
-        case 0:
-            color = (sf::Color::White);
-            break;
-        case 1:
-            color = (sf::Color::Black);
-            break;
-        case 2:
-            color = (sf::Color(150, 75, 0));  // brown
-            break;
-        default:
-            color = (sf::Color::Transparent);
-    }
+    auto color = colorname[Game::gridcolor];
     for (int i = SnakeNode::Height + 2; i < Game::Height;
          i += SnakeNode::Height + 2) {
         sf::RectangleShape shape_;
@@ -96,20 +71,7 @@ void drawxline(sf::RenderWindow& window) {
     }
 }
 void drawyline(sf::RenderWindow& window) {
-    auto color = sf::Color::White;
-    switch (Game::gridcolor) {
-        case 0:
-            color = (sf::Color::White);
-            break;
-        case 1:
-            color = (sf::Color::Black);
-            break;
-        case 2:
-            color = (sf::Color(150, 75, 0));  // brown
-            break;
-        default:
-            color = (sf::Color::Transparent);
-    }
+    auto color = colorname[Game::gridcolor];
     for (int i = SnakeNode::Width + 2; i < Game::Width;
          i += SnakeNode::Width + 2) {
         sf::RectangleShape shape_;

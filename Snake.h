@@ -19,6 +19,7 @@ class Snake {
 
     void checkFruitCollisions(std::vector<Fruit>& fruits);
     bool ok(int x, int y);
+    int pile=0;
 
     bool hitSelf() const;
     unsigned getSize() const;

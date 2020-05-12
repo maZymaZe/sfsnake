@@ -6,7 +6,8 @@
 #include "MenuScreen.h"
 
 using namespace sfSnake;
-
+bool Game::ingame = false;
+bool Game::pause = false;
 int Game::gridcolor = 2;
 int Game::bg = 0;
 double Game::mousey = 0, Game::mousex = 0;
@@ -46,6 +47,9 @@ void Game::run() {
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     while (window_.isOpen()) {
+        //sf::Int64 usec = timeSinceLastUpdate.asMicroseconds();
+      
+        //timeSinceLastUpdate = sf::microseconds(usec);
         sf::Time delta = clock.restart();
         timeSinceLastUpdate += delta;
         //处理重启的一小段时间
@@ -57,10 +61,15 @@ void Game::run() {
                 Game::mousex = mouse.getPosition(window_).x;
                 Game::mousey = mouse.getPosition(window_).y;
             }  //读取鼠标状态
+
             handleInput();
-            update(TimePerFrame);
+            if(!Game::pause)update(TimePerFrame);
         }
         //反复刷
-        render();
+        if(!Game::pause)render();
     }
+}
+bool checkpause() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) return true;
+    return false;
 }

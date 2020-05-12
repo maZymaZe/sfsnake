@@ -12,6 +12,7 @@ using namespace sfSnake;
 
 GameScreen::GameScreen() : snake_() {
     //生成蛇
+    Game::ingame=true;
 }
 
 void GameScreen::handleInput(sf::RenderWindow& window) { snake_.handleInput(); }
@@ -24,7 +25,7 @@ void GameScreen::update(sf::Time delta)  //刷新时的处理
     snake_.checkFruitCollisions(fruit_);
 
     if (snake_.hitSelf())
-        Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize());
+        Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize()),Game::ingame=false;
     //处理撞墙，传长度，处理分数
 }
 

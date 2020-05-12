@@ -31,11 +31,14 @@ class Game {
     static double mousex, mousey;
     static bool getmouse;
 
+    static bool ingame;
+    static bool pause;
+
    private:
     sf::RenderWindow window_;
     sf::Music bgMusic_;
     static const sf::Time TimePerFrame;
 };
 }  // namespace sfSnake
-
+bool checkpause();
 #endif

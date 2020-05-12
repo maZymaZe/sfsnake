@@ -31,12 +31,13 @@ void Snake::initNodes() {  //初始化
         nodes_.push_back(
             SnakeNode(sf::Vector2f(Game::Width / 2 - SnakeNode::Width / 2,
                                    Game::Height / 2 - (SnakeNode::Height / 2) +
-                                       (SnakeNode::Height * i)),0.0,-1.0));
+                                       (SnakeNode::Height * i)),
+                      0.0, -1.0));
     }
 }
 
 void Snake::handleInput() {  //改方向：此处要排除180°转向
-    double ndx=dx,ndy=dy;
+    double ndx = dx, ndy = dy;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         ndx = 0.0, ndy = -1.0;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -54,7 +55,15 @@ void Snake::handleInput() {  //改方向：此处要排除180°转向
             ndy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
         }
     }
-    if((dx-ndx)*(dx-ndx)+(dy-ndy)*(dy-ndy)<3.5)dx=ndx,dy=ndy;
+    if ((dx - ndx) * (dx - ndx) + (dy - ndy) * (dy - ndy) < 3.5)
+        dx = ndx, dy = ndy;
+
+    if (Game::ingame) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+            Game::pause = true, sf::sleep(sf::seconds(0.3));
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) Game::pause = false;
+    }
 }
 
 void Snake::update(sf::Time delta) {  //刷新

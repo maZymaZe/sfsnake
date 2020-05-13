@@ -9,6 +9,7 @@ using namespace sfSnake;
 bool Game::ingame = false;
 bool Game::pause = false;
 int Game::judgepause=0;
+int Game::speedup=0;
 int Game::gridcolor = 2;
 int Game::bg = 0;
 double Game::mousey = 0, Game::mousex = 0;
@@ -49,8 +50,10 @@ void Game::run() {
 
     while (window_.isOpen()) {
         //sf::Int64 usec = timeSinceLastUpdate.asMicroseconds();
-       
-        //timeSinceLastUpdate = sf::microseconds(usec);
+       if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))speedup+=40;
+        timeSinceLastUpdate += sf::microseconds(speedup);
+        speedup-=35;
+        if(speedup<0)speedup=0;
         sf::Time delta = clock.restart();
         timeSinceLastUpdate += delta;
         //处理重启的一小段时间
@@ -71,6 +74,6 @@ void Game::run() {
     }
 }
 bool checkpause() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) return true;
+     return true;
     return false;
 }

@@ -74,7 +74,8 @@ void MenuScreen::update(sf::Time delta) {
         "\n\n\n\nPress [SPACE] to play\n\nPress [ESC] to quit"
         "\n\nPress [Z] to switch\n\nbackground color->" +
         colorname[Game::bg] + "\n\nPress [X] to switch\n\ngrid color->" +
-        colorname[Game::gridcolor]+"\n\nPress [Space] to pause when playing";
+        colorname[Game::gridcolor]+"\n\nPress [Space] to pause when playing"
+        +"\n\nPress [S] to speed-up when playing";
     text_.setString(texttmp);
 }
 

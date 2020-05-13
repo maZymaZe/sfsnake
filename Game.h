@@ -33,6 +33,7 @@ class Game {
 
     static bool ingame;
     static bool pause;
+    static int judgepause;
 
    private:
     sf::RenderWindow window_;

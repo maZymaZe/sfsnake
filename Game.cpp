@@ -8,6 +8,7 @@
 using namespace sfSnake;
 bool Game::ingame = false;
 bool Game::pause = false;
+int Game::judgepause=0;
 int Game::gridcolor = 2;
 int Game::bg = 0;
 double Game::mousey = 0, Game::mousex = 0;
@@ -48,7 +49,7 @@ void Game::run() {
 
     while (window_.isOpen()) {
         //sf::Int64 usec = timeSinceLastUpdate.asMicroseconds();
-      
+       
         //timeSinceLastUpdate = sf::microseconds(usec);
         sf::Time delta = clock.restart();
         timeSinceLastUpdate += delta;
@@ -66,7 +67,7 @@ void Game::run() {
             if(!Game::pause)update(TimePerFrame);
         }
         //反复刷
-        if(!Game::pause)render();
+        render();
     }
 }
 bool checkpause() {

@@ -59,10 +59,18 @@ void Snake::handleInput() {  //改方向：此处要排除180°转向
         dx = ndx, dy = ndy;
 
     if (Game::ingame) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-            Game::pause = true, sf::sleep(sf::seconds(0.3));
+        Game::judgepause++;
+        if (Game::judgepause > 100000000) Game::judgepause -= 50000000;
+        if (!Game::pause && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
+            Game::judgepause > 4) {
+            Game::pause = true;
+            Game::judgepause =5000000;
+        }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) Game::pause = false;
+        if (Game::pause && sf::Keyboard::isKeyPressed(sf::Keyboard::Space)&&Game::judgepause > 5000004) {
+            Game::pause = false;
+            Game::judgepause = 0;
+        }
     }
 }
 
@@ -82,11 +90,13 @@ void Snake::checkFruitCollisions(std::vector<Fruit>& fruits) {
 
     if (toRemove != fruits.end()) {
         pickupSound_.play();
-        pile+=(*toRemove).sz;
+        pile += (*toRemove).sz;
         fruits.erase(toRemove);
-    } 
-    if(!pile)nodes_.pop_back();
-    else pile--;
+    }
+    if (!pile)
+        nodes_.pop_back();
+    else
+        pile--;
 }
 
 unsigned Snake::getSize() const { return nodes_.size(); }
@@ -132,6 +142,21 @@ void Snake::move() {
 void Snake::render(sf::RenderWindow& window) {
     for (long long unsigned int i = 0; i < nodes_.size(); ++i)
         nodes_[i].render(window, i);
+    if (Game::pause) {
+        sf::Font font_;
+        sf::Text text_;
+        font_.loadFromFile("Fonts/game_over.ttf");  //字体
+        text_.setFont(font_);
+        text_.setString("Your score: " + std::to_string(Snake::getSize()) +
+                        "!"
+                        "\n\n\n\nPress [SPACE] to continue");
+        text_.setFillColor(sf::Color::Red);
+        sf::FloatRect textBounds = text_.getLocalBounds();
+        text_.setOrigin(textBounds.left + textBounds.width / 2,
+                        textBounds.top + textBounds.height / 2);  //定位
+        text_.setPosition(Game::Width / 2, Game::Height / 2);
+        window.draw(text_);
+    }
 }
 
 bool Snake::ok(int x, int y) {

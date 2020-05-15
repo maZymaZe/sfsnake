@@ -111,6 +111,7 @@ void Snake::checkSelfCollisions() {
                ty = nodes_[i].getPosition().y - yy;
         // if (headNode.getBounds().intersects(nodes_[i].getBounds()))
         if (tx * tx + ty * ty <= 160) {
+            Game::speedup=0;//修复加速状态下死后快速开始产生速度过高的bug
             dieSound_.play();
             sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
             hitSelf_ = true;

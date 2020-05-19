@@ -11,7 +11,7 @@
 #include "SnakeNode.h"
 
 using namespace sfSnake;
-
+static int judgepause = 0;
 const int Snake::InitialSize = 5;  //初始长度
 Snake::Snake() : hitSelf_(false), dx(0.0), dy(-1.0) {
     initNodes();
@@ -37,39 +37,42 @@ void Snake::initNodes() {  //初始化
 }
 
 void Snake::handleInput() {  //改方向：此处要排除180°转向
-    double ndx = dx, ndy = dy;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        ndx = 0.0, ndy = -1.0;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        ndx = 0.0, ndy = 1.0;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        ndx = -1.0, ndy = 0.0;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        ndx = 1.0, ndy = 0.0;
+    if (!Game::pause) {
+        double ndx = dx, ndy = dy;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            ndx = 0.0, ndy = -1.0;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            ndx = 0.0, ndy = 1.0;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            ndx = -1.0, ndy = 0.0;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            ndx = 1.0, ndy = 0.0;
 
-    if (Game::getmouse) {
-        double xx = nodes_[0].getPosition().x, yy = nodes_[0].getPosition().y;
-        double ddx = Game::mousex - xx, ddy = Game::mousey - yy;
-        if (!(ddx == 0 && ddy == 0)) {
-            ndx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
-            ndy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
+        if (Game::getmouse) {
+            double xx = nodes_[0].getPosition().x,
+                   yy = nodes_[0].getPosition().y;
+            double ddx = Game::mousex - xx, ddy = Game::mousey - yy;
+            if (!(ddx == 0 && ddy == 0)) {
+                ndx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
+                ndy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
+            }
         }
+        if ((dx - ndx) * (dx - ndx) + (dy - ndy) * (dy - ndy) < 3.5)
+            dx = ndx, dy = ndy;
     }
-    if ((dx - ndx) * (dx - ndx) + (dy - ndy) * (dy - ndy) < 3.5)
-        dx = ndx, dy = ndy;
-
     if (Game::ingame) {
-        Game::judgepause++;
-        if (Game::judgepause > 100000000) Game::judgepause -= 50000000;
+        judgepause++;
+        if (judgepause > 100000000) judgepause -= 50000000;
         if (!Game::pause && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
-            Game::judgepause > 4) {
+            judgepause > 4) {
             Game::pause = true;
-            Game::judgepause =5000000;
+            judgepause = 5000000;
         }
 
-        if (Game::pause && sf::Keyboard::isKeyPressed(sf::Keyboard::Space)&&Game::judgepause > 5000004) {
+        if (Game::pause && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
+            judgepause > 5000004) {
             Game::pause = false;
-            Game::judgepause = 0;
+            judgepause = 0;
         }
     }
 }
@@ -111,7 +114,7 @@ void Snake::checkSelfCollisions() {
                ty = nodes_[i].getPosition().y - yy;
         // if (headNode.getBounds().intersects(nodes_[i].getBounds()))
         if (tx * tx + ty * ty <= 160) {
-            Game::speedup=0;//修复加速状态下死后快速开始产生速度过高的bug
+            Game::speedup = 0;  //修复加速状态下死后快速开始产生速度过高的bug
             dieSound_.play();
             sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
             hitSelf_ = true;

@@ -33,7 +33,6 @@ class Game {
 
     static bool ingame;
     static bool pause;
-    static int judgepause;
     static int speedup;
 
    private:

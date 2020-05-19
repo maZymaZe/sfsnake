@@ -14,7 +14,6 @@ GameScreen::GameScreen() : snake_() {
     //生成蛇
     Game::ingame=true;
     Game::pause= false;
-    Game::judgepause=0;
 }
 sf::Color colorname[4]={(sf::Color::White),(sf::Color::Black),
 (sf::Color(150, 75, 0)),(sf::Color::Transparent)};

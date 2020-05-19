@@ -8,7 +8,6 @@
 using namespace sfSnake;
 bool Game::ingame = false;
 bool Game::pause = false;
-int Game::judgepause=0;
 int Game::speedup=0;
 int Game::gridcolor = 2;
 int Game::bg = 0;

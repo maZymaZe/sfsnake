@@ -27,9 +27,7 @@ class Game {
     static int gridcolor;
     static int bg;
 
-    static sf::Mouse mouse;
-    static double mousex, mousey;
-    static bool getmouse;
+    
 
     static bool ingame;
     static bool pause;

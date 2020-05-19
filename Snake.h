@@ -13,7 +13,7 @@ class Snake {
    public:
     Snake();
 
-    void handleInput();
+    void handleInput(sf::RenderWindow& window);
     void update(sf::Time delta);
     void render(sf::RenderWindow& window);
 

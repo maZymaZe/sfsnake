@@ -17,7 +17,7 @@ GameScreen::GameScreen() : snake_() {
 }
 sf::Color colorname[4]={(sf::Color::White),(sf::Color::Black),
 (sf::Color(150, 75, 0)),(sf::Color::Transparent)};
-void GameScreen::handleInput(sf::RenderWindow& window) { snake_.handleInput(); }
+void GameScreen::handleInput(sf::RenderWindow& window) { snake_.handleInput(window); }
 
 void GameScreen::update(sf::Time delta)  //刷新时的处理
 {

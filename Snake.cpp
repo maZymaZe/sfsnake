@@ -12,6 +12,7 @@
 
 using namespace sfSnake;
 static int judgepause = 0;
+static sf::Mouse mouse;
 const int Snake::InitialSize = 5;  //初始长度
 Snake::Snake() : hitSelf_(false), dx(0.0), dy(-1.0) {
     initNodes();
@@ -36,7 +37,8 @@ void Snake::initNodes() {  //初始化
     }
 }
 
-void Snake::handleInput() {  //改方向：此处要排除180°转向
+void Snake::handleInput(
+    sf::RenderWindow& window) {  //改方向：此处要排除180°转向
     if (!Game::pause) {
         double ndx = dx, ndy = dy;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -47,19 +49,19 @@ void Snake::handleInput() {  //改方向：此处要排除180°转向
             ndx = -1.0, ndy = 0.0;
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             ndx = 1.0, ndy = 0.0;
-
-        if (Game::getmouse) {
+        if (mouse.isButtonPressed(sf::Mouse::Left)) {  //读取鼠标状态
             double xx = nodes_[0].getPosition().x,
                    yy = nodes_[0].getPosition().y;
-            double ddx = Game::mousex - xx, ddy = Game::mousey - yy;
-            if (!(ddx == 0 && ddy == 0)) {
-                ndx = ddx / sqrt((long double)ddx * ddx + ddy * ddy);
+            double ddx = mouse.getPosition(window).x - xx,
+                   ddy = mouse.getPosition(window).y - yy;
+            if (!(ddx == 0 && ddy == 0))
+                ndx = ddx / sqrt((long double)ddx * ddx + ddy * ddy),
                 ndy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
-            }
+            if ((dx - ndx) * (dx - ndx) + (dy - ndy) * (dy - ndy) < 3.5)
+                dx = ndx, dy = ndy;
         }
-        if ((dx - ndx) * (dx - ndx) + (dy - ndy) * (dy - ndy) < 3.5)
-            dx = ndx, dy = ndy;
     }
+
     if (Game::ingame) {
         judgepause++;
         if (judgepause > 100000000) judgepause -= 50000000;

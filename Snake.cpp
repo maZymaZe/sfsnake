@@ -16,7 +16,7 @@ const int Snake::InitialSize = 5;  //初始长度
 Snake::Snake() : hitSelf_(false), dx(0.0), dy(-1.0) {
     initNodes();
 
-    pickupBuffer_.loadFromFile("Sounds/pickup.aiff");
+    pickupBuffer_.loadFromFile("Sounds/pickup.wav");
     pickupSound_.setBuffer(pickupBuffer_);
     pickupSound_.setVolume(30);
 

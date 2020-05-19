@@ -14,7 +14,14 @@ GameOverScreen::GameOverScreen(std::size_t score) : score_(score)
 {
 	font_.loadFromFile("Fonts/game_over.ttf");//字体
 	text_.setFont(font_);
-	text_.setString("Your score: " + std::to_string(score) + "!"
+	if(score>=4000){
+		text_.setString("Your score: " + std::to_string(score) + "!"
+		"\n\nWonderful!!!"
+		"\n\nRespect!!!"
+		"\n\nPress [SPACE] to retry"
+		"\n\nPress [ESC] to quit");
+	}
+	else text_.setString("Your score: " + std::to_string(score) + "!"
 		"\n\nPress [SPACE] to retry"
 		"\n\nPress [ESC] to quit");
 	text_.setFillColor(sf::Color::Red);

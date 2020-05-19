@@ -26,8 +26,8 @@ void GameScreen::update(sf::Time delta)  //刷新时的处理
 
     snake_.update(delta);
     snake_.checkFruitCollisions(fruit_);
-
-    if (snake_.hitSelf())
+    
+    if (snake_.getSize()>=4000||snake_.hitSelf())
         Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize()),Game::ingame=false;
     //处理撞墙，传长度，处理分数
 }

@@ -73,7 +73,3 @@ void Game::run() {
         render();
     }
 }
-bool checkpause() {
-     return true;
-    return false;
-}

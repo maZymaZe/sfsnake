@@ -42,5 +42,4 @@ class Game {
     static const sf::Time TimePerFrame;
 };
 }  // namespace sfSnake
-bool checkpause();
 #endif

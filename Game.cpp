@@ -14,11 +14,12 @@ const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);  //这里大概指1
 std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();
 
 Game::Game() : window_(sf::VideoMode(Game::Width, Game::Height), "sfSnake") {
-    //此处以上可以设置屏幕大小
-    bgMusic_.openFromFile("Music/bg_music.wav");
+
+    bgMusic_.openFromFile("Music/bgm.wav");//車谷浩司 - I love Chopin
     bgMusic_.setLoop(true);
     bgMusic_.play();
     // bgm的设置，需要放在音乐文件夹并指定
+
 }
 
 void Game::handleInput() {
@@ -44,20 +45,22 @@ void Game::run() {
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     while (window_.isOpen()) {
-        // sf::Int64 usec = timeSinceLastUpdate.asMicroseconds();
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) speedup += 40;
         timeSinceLastUpdate += sf::microseconds(speedup);
         speedup -= 35;
         if (speedup < 0) speedup = 0;
+        //通过修改时间流速实现加速，暂时没有bug
+
         sf::Time delta = clock.restart();
         timeSinceLastUpdate += delta;
         //处理重启的一小段时间
+
         while (timeSinceLastUpdate > Game::TimePerFrame) {
             timeSinceLastUpdate -= TimePerFrame;
             handleInput();
             if (!Game::pause) update(TimePerFrame);
         }
-        //反复刷
         render();
     }
 }

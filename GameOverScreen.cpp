@@ -1,53 +1,46 @@
-#include <SFML/Graphics.hpp>
+#include "GameOverScreen.h"
 
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <memory>
 
 #include "Game.h"
 #include "GameScreen.h"
-#include "GameOverScreen.h"
 #include "MenuScreen.h"
 
 using namespace sfSnake;
 
-GameOverScreen::GameOverScreen(std::size_t score) : score_(score)
-{
-	font_.loadFromFile("Fonts/game_over.ttf");//字体
-	text_.setFont(font_);
-	if(score>=4000){
-		text_.setString("Your score: " + std::to_string(score) + "!"
-		"\n\nWonderful!!!"
-		"\n\nRespect!!!"
-		"\n\nPress [SPACE] to retry"
-		"\n\nPress [ESC] to quit");
-	}
-	else text_.setString("Your score: " + std::to_string(score) + "!"
-		"\n\nPress [SPACE] to retry"
-		"\n\nPress [ESC] to quit");
-	text_.setFillColor(sf::Color::Red);
-	//设置各种显示内容、颜色
+GameOverScreen::GameOverScreen(std::size_t score) : score_(score) {
+    font_.loadFromFile("Fonts/game_over.ttf");
+    text_.setFont(font_);
+    if (score >= 4000) {  //实测4000为正常运行的极限值以下一点点的一个合适的数字
+        text_.setString("Your score: " + std::to_string(score) +
+                        "!"
+                        "\n\nWonderful!!!"
+                        "\n\nRespect!!!"
+                        "\n\nPress [SPACE] to retry"
+                        "\n\nPress [ESC] to quit");
+    } else
+        text_.setString("Your score: " + std::to_string(score) +
+                        "!"
+                        "\n\nPress [SPACE] to retry"
+                        "\n\nPress [ESC] to quit");
+    text_.setFillColor(sf::Color::Red);
 
-	sf::FloatRect textBounds = text_.getLocalBounds();
-	text_.setOrigin(textBounds.left + textBounds.width / 2,
-		textBounds.top + textBounds.height / 2);//定位？
-	text_.setPosition(Game::Width / 2, Game::Height / 2);
-	//位置
+    sf::FloatRect textBounds = text_.getLocalBounds();
+    text_.setOrigin(textBounds.left + textBounds.width / 2,
+                    textBounds.top + textBounds.height / 2);
+    text_.setPosition(Game::Width / 2, Game::Height / 2);
+    //设置文本的中心，及中心的位置
 }
 
-void GameOverScreen::handleInput(sf::RenderWindow& window)
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		Game::Screen = std::make_shared<MenuScreen>();
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		window.close();
+void GameOverScreen::handleInput(sf::RenderWindow& window) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        Game::Screen = std::make_shared<MenuScreen>();
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        window.close();
 }
 
-void GameOverScreen::update(sf::Time delta)
-{
+void GameOverScreen::update(sf::Time delta) {}
 
-}
-
-void GameOverScreen::render(sf::RenderWindow& window)
-{
-	window.draw(text_);
-}
+void GameOverScreen::render(sf::RenderWindow& window) { window.draw(text_); }

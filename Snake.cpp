@@ -57,10 +57,11 @@ void Snake::handleInput(
             if (!(ddx == 0 && ddy == 0))
                 ndx = ddx / sqrt((long double)ddx * ddx + ddy * ddy),
                 ndy = ddy / sqrt((long double)ddx * ddx + ddy * ddy);
-            if ((dx - ndx) * (dx - ndx) + (dy - ndy) * (dy - ndy) < 3.5)
-                dx = ndx, dy = ndy;
         }
+        if ((dx - ndx) * (dx - ndx) + (dy - ndy) * (dy - ndy) < 3.5)
+        dx = ndx, dy = ndy;
     }
+    
 
     if (Game::ingame) {
         judgepause++;

@@ -19,6 +19,7 @@ class GameScreen : public Screen {
     void generateFruit();
 
    private:
+    bool foodok(int x, int y);
     Snake snake_;
     std::vector<Fruit> fruit_;
 };

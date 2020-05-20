@@ -9,7 +9,7 @@
 
 using namespace sfSnake;
 
-std::string colorname[4] = {" WHITE ", " BLACK ", " BROWN ", " TRANSPARENT "};
+std::string colorname[4] = {" WHITE ", " BLACK ", " BROWN ", " NULL "};
 
 MenuScreen::MenuScreen() {
     sf::sleep(sf::seconds(1));

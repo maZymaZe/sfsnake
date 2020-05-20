@@ -53,7 +53,7 @@ void GameScreen::generateFruit() {
     fruit_.push_back(Fruit(sf::Vector2f(tx, ty), fruitmode(engine)));
 }
 void drawbg(sf::RenderWindow& window) {
-    auto color = colorname[Game::bg];
+    auto color = colorname[Screen::bg];
     sf::RectangleShape shape_;
     shape_.setPosition(sf::Vector2f(0, 0));
     shape_.setFillColor(color);
@@ -61,7 +61,7 @@ void drawbg(sf::RenderWindow& window) {
     window.draw(shape_);
 }
 void drawxline(sf::RenderWindow& window) {
-    auto color = colorname[Game::gridcolor];
+    auto color = colorname[Screen::gridcolor];
     for (int i = SnakeNode::Height + 2; i < Game::Height;
          i += SnakeNode::Height + 2) {
         sf::RectangleShape shape_;
@@ -72,7 +72,7 @@ void drawxline(sf::RenderWindow& window) {
     }
 }
 void drawyline(sf::RenderWindow& window) {
-    auto color = colorname[Game::gridcolor];
+    auto color = colorname[Screen::gridcolor];
     for (int i = SnakeNode::Width + 2; i < Game::Width;
          i += SnakeNode::Width + 2) {
         sf::RectangleShape shape_;

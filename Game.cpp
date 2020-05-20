@@ -9,8 +9,6 @@ using namespace sfSnake;
 bool Game::ingame = false;
 bool Game::pause = false;
 int Game::speedup = 0;
-int Game::gridcolor = 2;
-int Game::bg = 0;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);  //这里大概指10Hz
 
 std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();

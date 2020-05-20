@@ -14,10 +14,15 @@ std::string colorname[4] = {" WHITE ", " BLACK ", " BROWN ", " TRANSPARENT "};
 MenuScreen::MenuScreen() {
     sf::sleep(sf::seconds(1));
     font_.loadFromFile("Fonts/game_over.ttf");
+    std::string texttmp =
+        "\n\n\n\nPress [SPACE] to play\n\nPress [ESC] to quit"
+        "\n\nPress [Z] to switch\n\nbackground color->" +
+        colorname[Screen::bg] + "\n\nPress [X] to switch\n\ngrid color->" +
+        colorname[Screen::gridcolor]+"\n\nPress [Space] to pause when playing"
+        +"\n\nPress [S] to speed-up when playing"
+        "\n\nYou can use keyboard or mouse to control";
+    text_.setString(texttmp);
     text_.setFont(font_);
-    text_.setString(
-        "\n\n\n\n\n\n\n\n\nPress [SPACE] to play"
-        "\n\nPress [ESC] to quit");
     text_.setCharacterSize(24);
     snakeText_.setFont(font_);
     snakeText_.setString("Snake!");
@@ -44,9 +49,9 @@ void MenuScreen::handleInput(sf::RenderWindow& window) {
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-        Game::bg = (Game::bg + 1) % 3;
+        Screen::bg = (Screen::bg + 1) % 3;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
-        Game::gridcolor = (Game::gridcolor + 1) % 4;
+        Screen::gridcolor = (Screen::gridcolor + 1) % 4;
 }
 
 void MenuScreen::update(sf::Time delta) {
@@ -73,9 +78,10 @@ void MenuScreen::update(sf::Time delta) {
     std::string texttmp =
         "\n\n\n\nPress [SPACE] to play\n\nPress [ESC] to quit"
         "\n\nPress [Z] to switch\n\nbackground color->" +
-        colorname[Game::bg] + "\n\nPress [X] to switch\n\ngrid color->" +
-        colorname[Game::gridcolor]+"\n\nPress [Space] to pause when playing"
-        +"\n\nPress [S] to speed-up when playing";
+        colorname[Screen::bg] + "\n\nPress [X] to switch\n\ngrid color->" +
+        colorname[Screen::gridcolor]+"\n\nPress [Space] to pause when playing"
+        +"\n\nPress [S] to speed-up when playing"
+        "\n\nYou can use keyboard or mouse to control";
     text_.setString(texttmp);
 }
 

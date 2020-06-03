@@ -45,7 +45,7 @@ void Game::run() {
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     while (window_.isOpen()) {
-
+        window_.setSize(sf::Vector2u(Game::Width,Game::Height));
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) speedup += 40;
         timeSinceLastUpdate += sf::microseconds(speedup);
         speedup -= 35;
